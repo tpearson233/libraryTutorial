@@ -36,7 +36,21 @@ namespace BooksApi
             services.AddSingleton<IBookstoreDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
 
+
+
+            // requires using Microsoft.Extensions.Options
+            services.Configure<ToolDatabaseSettings>(
+                Configuration.GetSection(nameof(ToolDatabaseSettings)));
+
+            services.AddSingleton<IToolDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<ToolDatabaseSettings>>().Value);
+
+
+
+
+
             services.AddSingleton<BookService>();
+            services.AddSingleton<ToolService>();
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }
 
