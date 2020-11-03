@@ -46,11 +46,17 @@ namespace BooksApi
                 sp.GetRequiredService<IOptions<ToolDatabaseSettings>>().Value);
 
 
+            // requires using Microsoft.Extensions.Options
+            services.Configure<CheckoutDatabaseSettings>(
+                Configuration.GetSection(nameof(CheckoutDatabaseSettings)));
 
+            services.AddSingleton<ICheckoutDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<CheckoutDatabaseSettings>>().Value);
 
 
             services.AddSingleton<BookService>();
             services.AddSingleton<ToolService>();
+            services.AddSingleton<CheckoutService>();
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }
 
